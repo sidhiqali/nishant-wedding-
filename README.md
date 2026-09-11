@@ -19,6 +19,6 @@ host (Netlify, Vercel, Cloudflare Pages, GitHub Pages, S3, etc.) with build
 command `npm run build` and output directory `dist`.
 
 The link-preview tags in `index.html` point at
-`https://nishant-wedding.vercel.app`. If the site moves to another domain,
+`https://tanvi-nishant-wedding.vercel.app`. If the site moves to another domain,
 update `og:url` and `og:image` there so WhatsApp keeps showing the preview card
 (`public/og-image.jpg`).
