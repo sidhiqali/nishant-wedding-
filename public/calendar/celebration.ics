@@ -1,0 +1,20 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Tanvi & Nishant//Wedding//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:celebration-2026@tanvi-nishant-wedding
+DTSTAMP:20260911T000000Z
+DTSTART:20261201T143000Z
+DTEND:20261201T180000Z
+SUMMARY:The Celebration Continues · Tanvi & Nishant
+LOCATION:Wedding Lawns\, Fairfield by Marriott\, Dehradun
+DESCRIPTION:A live band awaits after the “I do”… ✨
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Tomorrow: The Celebration Continues
+TRIGGER:-P1D
+END:VALARM
+END:VEVENT
+END:VCALENDAR
