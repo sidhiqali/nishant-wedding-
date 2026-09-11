@@ -745,11 +745,24 @@ function Hero() {
           <p>( S/o Mrs. Sarita &amp; Mr. Madanlal Dutt )</p>
         </div>
         <p className="hero-quote hero-animate delay-11">
-          “Two souls, one heart, woven by destiny — request the joy of your presence as we begin our forever.”
+          “Two souls, one heart, woven by destiny, request the joy of your presence as we begin our forever.”
         </p>
         <div className="hero-details hero-animate delay-13">
-          <span>▣ 30 NOV – 1 DEC 2026</span>
-          <span>⌖ DEHRADUN, UTTARAKHAND</span>
+          <span>
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <rect x="3.5" y="5" width="17" height="15" rx="2" />
+              <path d="M3.5 9.5h17M8 3v4M16 3v4" />
+            </svg>
+            30 Nov – 1 Dec 2026
+          </span>
+          <b aria-hidden="true">✦</b>
+          <span>
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 0 1 13 0c0 5.4-6.5 11-6.5 11z" />
+              <circle cx="12" cy="10" r="2.4" />
+            </svg>
+            Dehradun, Uttarakhand
+          </span>
         </div>
       </div>
       <CornerFloral position="bl" delay={1.1} />

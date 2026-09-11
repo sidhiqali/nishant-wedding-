@@ -18,7 +18,7 @@ music in `public/assets/`.
 host (Netlify, Vercel, Cloudflare Pages, GitHub Pages, S3, etc.) with build
 command `npm run build` and output directory `dist`.
 
-Set the environment variable `VITE_SITE_URL` to the site's public address
-(e.g. `https://tanvi-nishant.com`, no trailing slash) in the host's build
-settings. WhatsApp and other apps use it to show the preview card
-(`public/og-image.jpg`) when the link is shared.
+The link-preview tags in `index.html` point at
+`https://nishant-wedding.vercel.app`. If the site moves to another domain,
+update `og:url` and `og:image` there so WhatsApp keeps showing the preview card
+(`public/og-image.jpg`).
