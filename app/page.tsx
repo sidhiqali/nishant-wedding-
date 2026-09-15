@@ -17,7 +17,6 @@ const NAV_ITEMS = [
   ["events", "Events"],
   ["venue", "Venue"],
   ["gallery", "Gallery"],
-  ["travel", "Travel"],
 ] as const;
 
 // Times are IST; the same slots live in public/calendar/*.ics for Apple and Outlook.
@@ -52,9 +51,9 @@ const EVENTS = [
     name: "The Wedding",
     date: "Tuesday, 1 December 2026",
     time: "3:00 PM onwards",
-    venue: "Wedding Lawns",
+    venue: "Wedding Lawn",
     theme: "Theme: Elegant & Effortless",
-    emoji: "👑",
+    emoji: "💍",
     image: "/assets/event-wedding.jpg",
     wash: "wash-wedding",
     slug: "wedding",
@@ -65,7 +64,7 @@ const EVENTS = [
     name: "The Celebration Continues",
     date: "Tuesday, 1 December 2026",
     time: "8:00 PM onwards",
-    venue: "Wedding Lawns",
+    venue: "Wedding Lawn",
     theme: "A live band awaits after the “I do”… ✨",
     emoji: "🎶",
     image: "/assets/event-celebration.jpg",
@@ -84,25 +83,9 @@ const GALLERY = [
   { src: "/assets/gallery-5.jpg", alt: "From London, with love" },
 ];
 
-const DOMESTIC_TRAVEL = [
-  ["✈", "By Air", "Jolly Grant Airport (DED) is approximately 45 minutes from the venue. Direct flights connect Dehradun with Delhi, Mumbai, Bengaluru and other major cities."],
-  ["🚆", "By Train", "Dehradun Railway Station is around 25 minutes away, with convenient services from Delhi, Lucknow, Jaipur and across North India."],
-  ["🚗", "By Road", "Dehradun is about 3–4 hours from Delhi by road."],
-] as const;
-
-const TRAVEL_TIPS = [
-  ["🧣", "December Weather", "Expect crisp mornings and cool evenings. Pack a light woollen layer or shawl for outdoor celebrations."],
-  ["🗺", "Local Time", "Allow a little extra travel time on mountain roads and around Dehradun’s evening traffic."],
-] as const;
-
 const RSVP_CONTACTS = [
-  ["Bride’s family", "Munish Vohra", "+91 93122 49854"],
-  ["Groom’s family", "Madan Dutt", "+91 98929 24236"],
-] as const;
-
-const WEATHER = [
-  ["30 Nov", "21°C / 10°C", "Sunny & crisp", "☀️"],
-  ["1 Dec", "20°C / 9°C", "Clear evening", "🌤️"],
+  ["Bride’s family", "Munish Vohra", "+91 93122 49854", "tel:+919312249854"],
+  ["Groom’s family", "Nishant Dutt", "+44 7825 596713", "https://wa.me/447825596713"],
 ] as const;
 
 type Particle = {
@@ -131,6 +114,17 @@ function googleCalendarUrl(event: (typeof EVENTS)[number]) {
 
 function scrollToSection(id: string) {
   document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
+function useScrolled(threshold: number) {
+  const [scrolled, setScrolled] = useState(false);
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > threshold);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, [threshold]);
+  return scrolled;
 }
 
 function useRevealOnScroll(enabled: boolean) {
@@ -317,14 +311,7 @@ function BackgroundMusic() {
 
 function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
-
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 60);
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+  const scrolled = useScrolled(60);
 
   const navigate = (id: string) => {
     scrollToSection(id);
@@ -728,6 +715,20 @@ function ScratchCard({
   );
 }
 
+function ScrollHint() {
+  const scrolled = useScrolled(40);
+  return (
+    <div className={`scroll-hint ${scrolled ? "is-hidden" : ""}`}>
+      <button onClick={() => scrollToSection("save-the-date")} tabIndex={scrolled ? -1 : 0}>
+        <span aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6" /></svg>
+        </span>
+        Scroll down
+      </button>
+    </div>
+  );
+}
+
 function Hero() {
   return (
     <section id="home" className="hero-section ivory-section">
@@ -742,7 +743,7 @@ function Hero() {
         <div className="hero-with hero-animate delay-055"><span />&amp;<span /></div>
         <div className="hero-name hero-animate delay-07">
           <h1>Nishant</h1>
-          <p>( S/o Mrs. Sarita &amp; Mr. Madanlal Dutt )</p>
+          <p>( S/o Mrs. Sarita &amp; Dr. Madanlal Dutt )</p>
         </div>
         <p className="hero-quote hero-animate delay-11">
           “Two souls, one heart, woven by destiny, request the joy of your presence as we begin our forever.”
@@ -767,6 +768,7 @@ function Hero() {
       </div>
       <CornerFloral position="bl" delay={1.1} />
       <CornerFloral position="br" delay={0.4} />
+      <ScrollHint />
     </section>
   );
 }
@@ -1049,46 +1051,6 @@ function Gallery() {
   );
 }
 
-function Travel() {
-  return (
-    <section id="travel" className="ivory-section section-pad">
-      <CornerFloral position="tl" delay={0.2} />
-      <CornerFloral position="tr" delay={0.7} />
-      <div className="section-shell">
-        <SectionTitle eyebrow="Plan Your Journey" title="Travel Guide" copy="Everything you need to reach the foothills for our celebration." />
-        <div className="travel-block reveal-on-scroll">
-          <h3>✦ Travelling to Dehradun</h3>
-          <div className="travel-grid">
-            {DOMESTIC_TRAVEL.map(([icon, title, text], index) => (
-              <article className={`travel-card reveal-on-scroll stagger-${index + 1}`} key={title}><span>{icon}</span><h4>{title}</h4><p>{text}</p></article>
-            ))}
-          </div>
-        </div>
-        <div className="travel-block reveal-on-scroll">
-          <h3>✦ A few helpful notes</h3>
-          <div className="travel-grid">
-            {TRAVEL_TIPS.map(([icon, title, text], index) => (
-              <article className={`travel-card reveal-on-scroll stagger-${index + 1}`} key={title}><span>{icon}</span><h4>{title}</h4><p>{text}</p></article>
-            ))}
-          </div>
-        </div>
-        <div className="weather-card reveal-on-scroll">
-          <h3>☀ Dehradun Weather</h3>
-          <p className="script-note">Cool mountain air, gentle sunshine and crisp December evenings</p>
-          <div className="weather-grid">
-            {WEATHER.map(([date, temperature, note, emoji]) => (
-              <article key={date}><b>{emoji}</b><span>{date}</span><strong>{temperature}</strong><em>{note}</em></article>
-            ))}
-          </div>
-          <p>Pack a warm shawl or light jacket for the evening celebrations.</p>
-        </div>
-      </div>
-      <CornerFloral position="bl" delay={1.1} />
-      <CornerFloral position="br" delay={0.4} />
-    </section>
-  );
-}
-
 function ThankYou() {
   return (
     <section id="thanks" className="velvet-section thank-you">
@@ -1109,18 +1071,32 @@ function ThankYou() {
           <h3>Kindly RSVP</h3>
           <p>Please let us know you’ll be joining us</p>
           <ul>
-            {RSVP_CONTACTS.map(([family, name, phone]) => (
-              <li key={phone}>
-                <span className="rsvp-family">{family}</span>
-                <strong>{name}</strong>
-                <a href={`tel:${phone.replace(/\s/g, "")}`} aria-label={`Call ${name}, ${phone}`}>
-                  <svg viewBox="0 0 24 24" aria-hidden="true">
-                    <path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25c1.1.37 2.3.57 3.6.57a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z" />
-                  </svg>
-                  {phone}
-                </a>
-              </li>
-            ))}
+            {RSVP_CONTACTS.map(([family, name, phone, href]) => {
+              const whatsapp = href.startsWith("https://wa.me/");
+              return (
+                <li key={phone}>
+                  <span className="rsvp-family">{family}</span>
+                  <strong>{name}</strong>
+                  <a
+                    href={href}
+                    target={whatsapp ? "_blank" : undefined}
+                    rel={whatsapp ? "noreferrer" : undefined}
+                    aria-label={`${whatsapp ? "WhatsApp" : "Call"} ${name}, ${phone}`}
+                  >
+                    {whatsapp ? (
+                      <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5.1-1.3A10 10 0 1 0 12 2zm0 1.8a8.2 8.2 0 1 1-4.2 15.3l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 0 1 12 3.8zm-3.3 4.4c-.2 0-.5.1-.7.3-.3.3-1 1-1 2.4s1 2.8 1.2 3c.1.2 2 3.2 5 4.4 2.5 1 3 .8 3.5.7.5-.1 1.7-.7 2-1.4.2-.7.2-1.3.1-1.4-.1-.1-.3-.2-.6-.3l-2-1c-.3-.1-.5-.1-.7.1l-.9 1.1c-.2.2-.3.2-.6.1-.3-.1-1.3-.5-2.4-1.5-.9-.8-1.5-1.8-1.7-2.1-.2-.3 0-.5.1-.6l.5-.5.3-.5V11l-.1-.5-.9-2.1c-.2-.6-.5-.5-.7-.5h-.5z" />
+                      </svg>
+                    ) : (
+                      <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25c1.1.37 2.3.57 3.6.57a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z" />
+                      </svg>
+                    )}
+                    {phone}
+                  </a>
+                </li>
+              );
+            })}
           </ul>
         </div>
         <small>Made with love · 30&nbsp;November&nbsp;–&nbsp;1&nbsp;December&nbsp;2026</small>
@@ -1147,7 +1123,6 @@ export default function Home() {
           <Events />
           <Venue />
           <Gallery />
-          <Travel />
           <ThankYou />
         </main>
       )}

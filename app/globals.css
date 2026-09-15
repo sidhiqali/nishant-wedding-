@@ -646,6 +646,66 @@ p { text-wrap: pretty; }
 
 .music-toggle:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
 
+.scroll-hint {
+  position: fixed;
+  inset: auto 0 0;
+  z-index: 44;
+  display: flex;
+  justify-content: center;
+  padding: 5.5rem 0 calc(1.35rem + env(safe-area-inset-bottom));
+  background: linear-gradient(180deg, rgba(243,236,226,0) 0%, rgba(243,236,226,.85) 45%, rgba(243,236,226,.97) 100%);
+  opacity: 0;
+  animation: fade-in .8s ease 2.4s forwards;
+  transition: opacity .5s ease;
+  pointer-events: none;
+}
+
+.scroll-hint button {
+  display: inline-flex;
+  align-items: center;
+  gap: .75rem;
+  min-height: 46px;
+  padding: .45rem 1.45rem .45rem .5rem;
+  border: 1px solid rgba(228,199,125,.8);
+  border-radius: 999px;
+  color: var(--gold-light);
+  background: linear-gradient(135deg, #7a142a 0%, #4b0a18 55%, #6a1224 100%);
+  box-shadow: 0 0 0 6px rgba(243,236,226,.9), inset 0 0 0 3px rgba(75,10,24,.9), inset 0 0 0 4px rgba(228,199,125,.35), var(--shadow-royal);
+  font-family: "Cinzel", serif;
+  font-size: .72rem;
+  letter-spacing: .24em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  cursor: pointer;
+  pointer-events: auto;
+}
+
+.scroll-hint button span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: 1px solid rgba(228,199,125,.55);
+  border-radius: 50%;
+}
+
+.scroll-hint svg {
+  width: 16px;
+  height: 16px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  animation: hint-bob 1.8s ease-in-out infinite;
+}
+
+.scroll-hint.is-hidden { opacity: 0; animation: none; }
+.scroll-hint.is-hidden button { pointer-events: none; }
+.scroll-hint button:hover { color: var(--burgundy-deep); background: var(--gold-light); }
+.scroll-hint button:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
+
 /* Hero */
 .hero-section {
   min-height: 978px;
@@ -943,10 +1003,7 @@ p { text-wrap: pretty; }
 }
 
 .event-card h3,
-.venue-copy h3,
-.travel-block h3,
-.travel-card h4,
-.weather-card h3 {
+.venue-copy h3 {
   margin: .4rem 0 0;
   color: var(--burgundy);
   font-family: "Pinyon Script", cursive;
@@ -1470,46 +1527,6 @@ p { text-wrap: pretty; }
   text-align: center;
 }
 
-/* Travel and weather */
-.travel-block { margin-top: 3.5rem; }
-.travel-block h3 { font-size: 2.9rem; text-align: left; }
-.travel-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.25rem; margin-top: 1.5rem; }
-
-.travel-card {
-  padding: 1.5rem;
-  border: 2px solid rgba(189,142,54,.4);
-  border-radius: 1rem;
-  background: rgba(247,241,233,.9);
-  box-shadow: var(--shadow-soft);
-  backdrop-filter: blur(8px);
-  transition: transform .5s ease, box-shadow .5s ease;
-}
-
-.travel-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-royal); }
-.travel-card > span { display: flex; align-items: center; justify-content: center; width: 52px; height: 52px; border-radius: 50%; color: var(--gold-light); background: linear-gradient(135deg, #7a142a, #4b0a18); box-shadow: var(--shadow-gold); font-size: 1.5rem; }
-.travel-card h4 { font-size: 2.2rem; }
-.travel-card p { margin: .55rem 0 0; }
-
-.weather-card {
-  margin-top: 3.5rem;
-  padding: 2.2rem;
-  border: 2px solid rgba(189,142,54,.5);
-  border-radius: 1.5rem;
-  background: linear-gradient(135deg, #dbe9ee, #f2e8d8 50%, #eedbdd);
-  box-shadow: var(--shadow-royal);
-  text-align: center;
-}
-
-.weather-card h3 { font-size: 3.2rem; }
-.weather-card > .script-note { margin-top: .3rem; }
-.weather-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 250px)); justify-content: center; gap: 1rem; margin-top: 1.8rem; }
-.weather-grid article { display: flex; flex-direction: column; align-items: center; padding: 1.2rem; border: 1px solid rgba(189,142,54,.4); border-radius: 1rem; background: rgba(247,241,233,.78); box-shadow: var(--shadow-soft); }
-.weather-grid b { font-size: 2.5rem; }
-.weather-grid span { margin-top: .3rem; color: var(--gold-deep); font-family: "Cinzel", serif; font-size: .67rem; letter-spacing: .15em; text-transform: uppercase; }
-.weather-grid strong { margin-top: .2rem; white-space: nowrap; color: var(--burgundy); font-family: "Pinyon Script", cursive; font-size: 2rem; font-weight: 400; }
-.weather-grid em { font-size: .95rem; }
-.weather-card > p:last-child { margin: 1.5rem 0 0; font-style: italic; }
-
 /* Closing */
 .thank-you { min-height: 850px; display: flex; align-items: center; justify-content: center; padding: 8rem 0; }
 .thank-you-inner { position: relative; z-index: 3; width: min(100% - 3rem, 800px); text-align: center; }
@@ -1683,6 +1700,11 @@ p { text-wrap: pretty; }
   35%, 100% { transform: translateX(560%) skewX(-20deg); }
 }
 
+@keyframes hint-bob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(4px); }
+}
+
 @keyframes heart-beat {
   0%, 100% { transform: scale(1); filter: drop-shadow(0 0 12px rgba(255,216,120,.4)); }
   50% { transform: scale(1.1); filter: drop-shadow(0 0 26px rgba(255,216,120,.85)); }
@@ -1759,7 +1781,7 @@ p { text-wrap: pretty; }
   .countdown-grid { grid-template-columns: repeat(2, 1fr); gap: .8rem; }
   .countdown-unit { padding: 1rem .5rem; }
   .countdown-card > p { font-size: 2rem; line-height: 1.2; }
-  .event-grid, .travel-grid { grid-template-columns: 1fr; }
+  .event-grid { grid-template-columns: 1fr; }
   .event-grid { max-width: 520px; }
   .venue-hero { height: 300px; }
   .venue-hero > div { padding: 3rem 1.25rem 1.2rem; }
@@ -1778,10 +1800,6 @@ p { text-wrap: pretty; }
   .lightbox-prev { left: .5rem; }
   .lightbox-next { right: .5rem; }
   .lightbox button { width: 46px; height: 46px; }
-  .travel-block h3 { text-align: center; }
-  .weather-grid { grid-template-columns: repeat(2, 1fr); }
-  .weather-card { padding: 1.5rem .8rem; }
-  .weather-grid strong { font-size: 1.55rem; }
   .thank-you { min-height: 780px; }
   .thank-you small { line-height: 1.8; letter-spacing: .2em; }
   .thank-sign { font-size: clamp(2.3rem, 11vw, 3.2rem); white-space: nowrap; }
