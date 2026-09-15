@@ -1003,7 +1003,8 @@ p { text-wrap: pretty; }
 }
 
 .event-card h3,
-.venue-copy h3 {
+.venue-copy h3,
+.weather-card h3 {
   margin: .4rem 0 0;
   color: var(--burgundy);
   font-family: "Pinyon Script", cursive;
@@ -1057,7 +1058,8 @@ p { text-wrap: pretty; }
   text-align: center;
 }
 
-.countdown-unit strong {
+.countdown-unit strong,
+.weather-day strong {
   display: block;
   background: linear-gradient(90deg, #9b7027, #f7d36e, #9b7027);
   background-size: 200% 100%;
@@ -1527,6 +1529,93 @@ p { text-wrap: pretty; }
   text-align: center;
 }
 
+/* Weather */
+.weather-card {
+  max-width: 760px;
+  margin: 3rem auto 0;
+  overflow: hidden;
+  border: 2px solid rgba(189,142,54,.5);
+  border-radius: 1.5rem;
+  background: rgba(248,243,236,.92);
+  box-shadow: var(--shadow-royal);
+}
+
+.weather-days {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  padding: 2.8rem 1.5rem 2.4rem;
+}
+
+.weather-day {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 1rem;
+  text-align: center;
+}
+
+.weather-day + .weather-day { border-left: 1px solid rgba(189,142,54,.4); }
+
+.weather-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 68px;
+  height: 68px;
+  border-radius: 50%;
+  color: var(--gold-light);
+  background: linear-gradient(135deg, #7a142a, #4b0a18);
+  box-shadow: inset 0 0 0 3px rgba(75,10,24,.9), inset 0 0 0 4px rgba(228,199,125,.4), var(--shadow-gold);
+}
+
+.weather-icon svg {
+  width: 32px;
+  height: 32px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.weather-date {
+  margin-top: 1.3rem;
+  color: var(--gold-deep);
+  font-family: "Cinzel", serif;
+  font-size: .68rem;
+  letter-spacing: .25em;
+  text-transform: uppercase;
+}
+
+.weather-card h3 { font-size: 2.4rem; }
+.weather-day strong { margin-top: .8rem; font-size: 3.8rem; white-space: nowrap; }
+.weather-day strong span { margin: 0 .12em; font-size: .6em; opacity: .5; vertical-align: .15em; }
+.weather-day strong sup { -webkit-text-fill-color: var(--gold-deep); font-family: "Cormorant Garamond", serif; font-size: .42em; font-weight: 600; line-height: 0; vertical-align: .75em; }
+
+.weather-day small {
+  margin-top: .35rem;
+  color: var(--gold-deep);
+  font-family: "Cinzel", serif;
+  font-size: .62rem;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+}
+.weather-day em { margin-top: .7rem; font-size: 1.1rem; }
+
+.weather-tip {
+  margin: 0;
+  padding: 1.05rem 1.5rem;
+  border-top: 1px solid rgba(228,199,125,.6);
+  color: var(--gold-light);
+  background: linear-gradient(135deg, #7a142a 0%, #4b0a18 55%, #6a1224 100%);
+  font-family: "Cinzel", serif;
+  font-size: .72rem;
+  letter-spacing: .18em;
+  line-height: 1.7;
+  text-align: center;
+  text-transform: uppercase;
+}
+
 /* Closing */
 .thank-you { min-height: 850px; display: flex; align-items: center; justify-content: center; padding: 8rem 0; }
 .thank-you-inner { position: relative; z-index: 3; width: min(100% - 3rem, 800px); text-align: center; }
@@ -1803,6 +1892,9 @@ p { text-wrap: pretty; }
   .thank-you { min-height: 780px; }
   .thank-you small { line-height: 1.8; letter-spacing: .2em; }
   .thank-sign { font-size: clamp(2.3rem, 11vw, 3.2rem); white-space: nowrap; }
+  .weather-days { grid-template-columns: 1fr; gap: 2rem; padding: 2.2rem 1rem 2rem; }
+  .weather-day + .weather-day { padding-top: 2rem; border-top: 1px solid rgba(189,142,54,.4); border-left: 0; }
+  .weather-tip { font-size: .62rem; }
   .rsvp > p { font-size: 1.1rem; }
   .rsvp ul { grid-template-columns: 1fr; gap: 1.4rem; margin-top: 1.5rem; }
   .rsvp li + li { padding-top: 1.4rem; border-top: 1px solid rgba(228,199,125,.3); border-left: 0; }

@@ -17,6 +17,7 @@ const NAV_ITEMS = [
   ["events", "Events"],
   ["venue", "Venue"],
   ["gallery", "Gallery"],
+  ["weather", "Weather"],
 ] as const;
 
 // Times are IST; the same slots live in public/calendar/*.ics for Apple and Outlook.
@@ -86,6 +87,11 @@ const GALLERY = [
 const RSVP_CONTACTS = [
   ["Bride’s family", "Munish Vohra", "+91 93122 49854", "tel:+919312249854"],
   ["Groom’s family", "Nishant Dutt", "+44 7825 596713", "https://wa.me/447825596713"],
+] as const;
+
+const WEATHER = [
+  { date: "Monday, 30 November", events: "Cocktail & Sangeet", high: 21, low: 10, note: "Sunny & crisp", icon: "sun" },
+  { date: "Tuesday, 1 December", events: "Haldi & Wedding", high: 20, low: 9, note: "Clear, starlit evening", icon: "moon" },
 ] as const;
 
 type Particle = {
@@ -1051,6 +1057,41 @@ function Gallery() {
   );
 }
 
+function Weather() {
+  return (
+    <section id="weather" className="blush-section section-pad">
+      <CornerFloral position="tl" delay={0.2} />
+      <CornerFloral position="tr" delay={0.7} />
+      <div className="section-shell">
+        <SectionTitle eyebrow="What to Expect" title="Dehradun Weather" copy="Cool mountain air, gentle sunshine and crisp December evenings." />
+        <div className="weather-card reveal-on-scroll stagger-1">
+          <div className="weather-days">
+            {WEATHER.map(({ date, events, high, low, note, icon }) => (
+              <div className="weather-day" key={date}>
+                <span className="weather-icon" aria-hidden="true">
+                  {icon === "sun" ? (
+                    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4" /><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8" /></svg>
+                  ) : (
+                    <svg viewBox="0 0 24 24"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z" /><path d="M17 3v3M15.5 4.5h3" /></svg>
+                  )}
+                </span>
+                <span className="weather-date">{date}</span>
+                <h3>{events}</h3>
+                <strong>{high}<sup>°</sup><span aria-hidden="true">/</span>{low}<sup>°</sup></strong>
+                <small>High · Low °C</small>
+                <em>{note}</em>
+              </div>
+            ))}
+          </div>
+          <p className="weather-tip">✦&nbsp;&nbsp;Pack a warm shawl or light jacket for the evening celebrations&nbsp;&nbsp;✦</p>
+        </div>
+      </div>
+      <CornerFloral position="bl" delay={1.1} />
+      <CornerFloral position="br" delay={0.4} />
+    </section>
+  );
+}
+
 function ThankYou() {
   return (
     <section id="thanks" className="velvet-section thank-you">
@@ -1123,6 +1164,7 @@ export default function Home() {
           <Events />
           <Venue />
           <Gallery />
+          <Weather />
           <ThankYou />
         </main>
       )}
